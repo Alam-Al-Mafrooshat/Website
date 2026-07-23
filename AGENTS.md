@@ -17,7 +17,7 @@ This is the source-managed multilingual website for Alam Al Mafrooshat, a family
 - `app/layout.tsx` owns site metadata, icons, and social-preview settings.
 - `public/brand/` contains the production logo.
 - `public/media/` contains the curated storefront images and videos.
-- `.openai/hosting.json` contains Sites hosting bindings only.
+- `wrangler.jsonc` defines the Cloudflare Worker and static-asset deployment.
 
 ## Conventions
 
@@ -26,4 +26,4 @@ This is the source-managed multilingual website for Alam Al Mafrooshat, a family
 - Keep page content in source. Do not add a CMS, database, or runtime content API unless the product requirements genuinely change.
 - Use normalized, descriptive filenames for new production media under `public/media/`. Preserve the original source assets in `Images/` and `Video/`.
 - Keep Instagram, map, and other external destinations in constants near the top of `app/page.tsx`.
-- Do not edit generated output under `dist/` or `build/`.
+- Do not edit generated output under `dist/`.
