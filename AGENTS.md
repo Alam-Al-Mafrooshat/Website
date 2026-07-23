@@ -9,6 +9,7 @@ This is the source-managed multilingual website for Alam Al Mafrooshat, a family
 - `npm run dev` — start the local site.
 - `npm run build` — create the production build.
 - `npm test` — build and verify the rendered page and required assets.
+- `npm run lint` — lint maintained source while excluding generated output.
 
 ## Architecture
 
@@ -18,6 +19,7 @@ This is the source-managed multilingual website for Alam Al Mafrooshat, a family
 - `public/brand/` contains the production logo.
 - `public/media/` contains the curated storefront images and videos.
 - `wrangler.jsonc` defines the Cloudflare Worker and static-asset deployment.
+- `docs/operations.md` is the durable deployment, domain, rollback, and troubleshooting reference.
 
 ## Conventions
 
@@ -27,3 +29,4 @@ This is the source-managed multilingual website for Alam Al Mafrooshat, a family
 - Use normalized, descriptive filenames for new production media under `public/media/`. Preserve the original source assets in `Images/` and `Video/`.
 - Keep Instagram, map, and other external destinations in constants near the top of `app/page.tsx`.
 - Do not edit generated output under `dist/`.
+- Production is `https://alam-al-mafrooshat.com`; pushes to `main` deploy through Cloudflare Workers Builds with no GitHub Actions workflow.
