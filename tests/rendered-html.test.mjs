@@ -52,6 +52,9 @@ test("keeps all three languages and production assets in source", async () => {
   assert.match(page, /ku:\s*\{/);
   assert.match(page, /en:\s*\{/);
   assert.match(page, /document\.documentElement\.dir/);
+  assert.match(page, /webkitEnterFullscreen/);
+  assert.match(page, /film-fullscreen-trigger/);
+  assert.match(page, /Watch full screen/);
   assert.match(page, /observer\.unobserve\(entry\.target\)/);
   assert.doesNotMatch(page, /classList\.toggle\("is-visible", entry\.isIntersecting\)/);
   assert.match(page, /key=\{collectionImages\[index\]\}/);
@@ -61,6 +64,10 @@ test("keeps all three languages and production assets in source", async () => {
   assert.match(layout, /ar_IQ/);
   assert.match(packageJson, /"name": "alam-al-mafrooshat"/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
+
+  const styles = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
+  assert.match(styles, /grid-template-columns:\s*none/);
+  assert.match(styles, /grid-auto-columns:\s*minmax\(82vw, 1fr\)/);
 
   await Promise.all([
     access(new URL("../public/brand/logo.png", import.meta.url)),

@@ -46,6 +46,7 @@ const copy = {
       body: "شاهدوا بعض التفاصيل والتشكيلات المتوفرة، ثم زورونا لتجربة الخامات والألوان عن قرب.",
       labels: ["داخل المتجر", "تفاصيل المجموعة", "تشكيلات جديدة"],
       play: "تشغيل الفيديو",
+      fullscreen: "شاهد بملء الشاشة",
     },
     visit: {
       kicker: "زورونا",
@@ -97,6 +98,7 @@ const copy = {
       body: "هەندێک لە وردەکاری و کۆمەڵەکان ببینە، پاشان سەردانمان بکە بۆ ئەوەی خامە و ڕەنگەکان لە نزیکەوە هەڵبژێریت.",
       labels: ["ناو فرۆشگا", "وردەکاریی کۆمەڵە", "هەڵبژاردەی نوێ"],
       play: "ڤیدیۆکە لێبدە",
+      fullscreen: "بە پڕی شاشە ببینە",
     },
     visit: {
       kicker: "سەردانمان بکە",
@@ -148,6 +150,7 @@ const copy = {
       body: "See a little of what is in store, then visit us to experience the textures, colours and selection in person.",
       labels: ["Inside the store", "Collection details", "New selections"],
       play: "Play video",
+      fullscreen: "Watch full screen",
     },
     visit: {
       kicker: "Visit us",
@@ -194,6 +197,39 @@ export default function Home() {
     window.addEventListener("scroll", updateHeader, { passive: true });
     return () => window.removeEventListener("scroll", updateHeader);
   }, []);
+
+  const openFilmFullscreen = (index: number) => {
+    const videos = Array.from(document.querySelectorAll<HTMLVideoElement>(".film-card video"));
+    const video = videos[index];
+    if (!video) return;
+
+    videos.forEach((item) => {
+      if (item !== video) item.pause();
+    });
+
+    const safariVideo = video as HTMLVideoElement & {
+      webkitEnterFullscreen?: () => void;
+      webkitSupportsFullscreen?: boolean;
+    };
+    const play = () => void video.play().catch(() => undefined);
+
+    if (safariVideo.webkitSupportsFullscreen && safariVideo.webkitEnterFullscreen) {
+      try {
+        safariVideo.webkitEnterFullscreen();
+        play();
+        return;
+      } catch {
+        // Fall through to the standard API or normal playback.
+      }
+    }
+
+    if (video.requestFullscreen) {
+      void video.requestFullscreen().then(play).catch(play);
+      return;
+    }
+
+    play();
+  };
 
   useEffect(() => {
     const root = document.documentElement;
@@ -339,9 +375,21 @@ export default function Home() {
           <div className="film-grid">
             {films.map((film, index) => (
               <article className="film-card" key={film.src} data-reveal>
-                <video controls playsInline preload="metadata" poster={film.poster} aria-label={`${text.films.play}: ${text.films.labels[index]}`}>
-                  <source src={film.src} type="video/mp4" />
-                </video>
+                <div className="film-media">
+                  <video controls preload="metadata" poster={film.poster} aria-label={`${text.films.play}: ${text.films.labels[index]}`}>
+                    <source src={film.src} type="video/mp4" />
+                  </video>
+                  <button
+                    className="film-fullscreen-trigger"
+                    type="button"
+                    aria-label={`${text.films.fullscreen}: ${text.films.labels[index]}`}
+                    onClick={() => openFilmFullscreen(index)}
+                  >
+                    <span className="film-fullscreen-label" aria-hidden="true">
+                      <b>▶</b>{text.films.fullscreen}
+                    </span>
+                  </button>
+                </div>
                 <p><span>0{index + 1}</span>{text.films.labels[index]}</p>
               </article>
             ))}
