@@ -208,7 +208,12 @@ export default function Home() {
 
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => entry.target.classList.toggle("is-visible", entry.isIntersecting));
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
       },
       { threshold: 0.12, rootMargin: "0px 0px -7% 0px" },
     );
@@ -295,7 +300,7 @@ export default function Home() {
 
           <div className="collection-grid">
             {text.collection.cards.map((card, index) => (
-              <article className={`collection-card card-${index + 1}`} key={card.title} data-reveal>
+              <article className={`collection-card card-${index + 1}`} key={collectionImages[index]} data-reveal>
                 <img src={collectionImages[index]} alt={card.alt} loading="lazy" decoding="async" />
                 <div className="card-overlay">
                   <span>0{index + 1}</span>

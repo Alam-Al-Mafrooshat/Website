@@ -52,6 +52,10 @@ test("keeps all three languages and production assets in source", async () => {
   assert.match(page, /ku:\s*\{/);
   assert.match(page, /en:\s*\{/);
   assert.match(page, /document\.documentElement\.dir/);
+  assert.match(page, /observer\.unobserve\(entry\.target\)/);
+  assert.doesNotMatch(page, /classList\.toggle\("is-visible", entry\.isIntersecting\)/);
+  assert.match(page, /key=\{collectionImages\[index\]\}/);
+  assert.doesNotMatch(page, /key=\{card\.title\}/);
   assert.match(page, /maps\.app\.goo\.gl/);
   assert.match(layout, /\/og\.png/);
   assert.match(layout, /ar_IQ/);
