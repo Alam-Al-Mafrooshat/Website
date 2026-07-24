@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
+import { FaInstagram, FaLocationDot, FaPhone } from "react-icons/fa6";
 
 type Language = "ar" | "ku" | "en";
 
@@ -15,7 +16,7 @@ const copy = {
     hero: {
       eyebrow: "أربيل · منذ ١٩٩٥",
       title: "مفروشات تُكمل إحساس البيت.",
-      body: "متجر عائلي محلي يجمع مفارش السرير والبطانيات والسجاد والتفاصيل الناعمة التي تجعل كل غرفة أكثر دفئاً.",
+      body: "لتجارة مستلزمات النوم والفنادق بالمفرد والجملة، بأفضل الأسعار، مع توفر خدمة التوصيل.",
       primary: "اكتشف المجموعة",
       secondary: "الاتجاهات",
       imageAlt: "مفرش سرير أسود فاخر في غرفة عصرية",
@@ -37,7 +38,7 @@ const copy = {
       kicker: "حكايتنا",
       title: "من قلب أربيل، إلى تفاصيل بيوتكم.",
       body: "عالم المفروشات مشروع عائلي محلي بدأ عام ١٩٩٥. نعرف أن اختيار المفروشات تجربة شخصية، لذلك نحب أن تشاهدوا الخامة واللون عن قرب وتجدوا القطعة التي تشبه بيتكم.",
-      line: "اختيار واسع · خدمة محلية · خبرة عائلية",
+      line: "شركة عالم المفروشات للتجارة العامة / المحدودة الخاصة",
       cta: "تابعنا على إنستغرام",
     },
     films: {
@@ -51,10 +52,10 @@ const copy = {
     visit: {
       kicker: "زورونا",
       title: "ننتظركم في أربيل.",
-      body: "تعالوا وشاهدوا التشكيلة بأنفسكم. متجرنا قريب من سوق قلعة أربيل، ويمكنكم فتح الموقع مباشرة في خرائط Google.",
+      body: "زورونا في خانقاه، أربيل، وشاهدوا التشكيلة بأنفسكم. يمكنكم فتح الموقع الدقيق مباشرةً في خرائط Google.",
       directions: "افتح الموقع",
       call: "اتصل بنا",
-      address: "أربيل، العراق",
+      address: "خانقاه، أربيل، العراق",
       hours: "للتوفر والأسعار، تواصلوا معنا مباشرة.",
       imageAlt: "واجهة متجر عالم المفروشات في أربيل",
     },
@@ -67,7 +68,7 @@ const copy = {
     hero: {
       eyebrow: "هەولێر · لە ساڵی ١٩٩٥ەوە",
       title: "ڕاخەرانی ماڵ کە هەستی تەواوی دەبەخشێت.",
-      body: "فرۆشگایەکی خێزانی و ناوخۆیی بۆ جلی جێخەو، پەتوو، فەرش و ئەو وردەکارییە نەرم و جوانانەی کە ماڵ گەرمتر دەکەن.",
+      body: "بۆ بازرگانی کەل و پەلی نوستن و هۆتێل بە تاک و کۆ بە گونجاوترین نرخ گەیاندن هەیە",
       primary: "کۆمەڵەکە ببینە",
       secondary: "ڕێنمایی شوێن",
       imageAlt: "ڕاخەرانی ڕەشی جێخەو لە ژوورێکی مۆدێرن",
@@ -89,7 +90,7 @@ const copy = {
       kicker: "چیرۆکمان",
       title: "لە دڵی هەولێرەوە، بۆ وردەکاریی ماڵەکانتان.",
       body: "عالم المفروشات پرۆژەیەکی خێزانی و ناوخۆییە کە لە ساڵی ١٩٩٥ دەستی پێکردووە. دەزانین هەڵبژاردنی ڕاخەرانی ماڵ شتێکی کەسییە، بۆیە حەز دەکەین لە نزیکەوە خامە و ڕەنگەکان ببینن.",
-      line: "هەڵبژاردەی فراوان · خزمەتگوزاری ناوخۆیی · ئەزموونی خێزانی",
+      line: "کۆمپانیای عالم المفروشات بۆ بازرگانی گشتی / سنوورداری تایبەت",
       cta: "لە ئینستاگرام شوێنمان بکەوە",
     },
     films: {
@@ -103,10 +104,10 @@ const copy = {
     visit: {
       kicker: "سەردانمان بکە",
       title: "لە هەولێر چاوەڕێتانین.",
-      body: "سەردانمان بکەن و کۆمەڵەکان لە نزیکەوە ببینن. فرۆشگاکەمان نزیک بازاڕی قەڵای هەولێرە و شوێنەکەمان لە نەخشەی Google بەردەستە.",
+      body: "سەردانمان بکەن لە خانەقا، هەولێر، و کۆمەڵەکان لە نزیکەوە ببینن. شوێنە وردەکەمان لە نەخشەی Google بەردەستە.",
       directions: "شوێنەکە بکەرەوە",
       call: "پەیوەندیمان پێوە بکە",
-      address: "هەولێر، عێراق",
+      address: "خانەقا، هەولێر، عێراق",
       hours: "بۆ بەردەستبوون و نرخ، ڕاستەوخۆ پەیوەندیمان پێوە بکەن.",
       imageAlt: "ڕووی دەرەوەی فرۆشگای عالم المفروشات لە هەولێر",
     },
@@ -119,7 +120,7 @@ const copy = {
     hero: {
       eyebrow: "Erbil · Since 1995",
       title: "Textiles that make home feel complete.",
-      body: "A local, family-run home textile store for bedding, blankets, carpets and the soft details that make every room feel warmer.",
+      body: "Sleep and hotel supplies for retail and wholesale at competitive prices, with delivery available.",
       primary: "Explore the collection",
       secondary: "Get directions",
       imageAlt: "A luxurious black bedspread in a modern bedroom",
@@ -141,7 +142,7 @@ const copy = {
       kicker: "Our story",
       title: "From the heart of Erbil, to the details of your home.",
       body: "Alam Al Mafrooshat is a local family business established in 1995. We know home textiles are personal, so we invite you to see the fabric and colour up close and find the piece that feels right for your home.",
-      line: "Wide choice · Local service · Family experience",
+      line: "Alam Al Mafrooshat General Trading Company / Private Limited",
       cta: "Follow us on Instagram",
     },
     films: {
@@ -155,10 +156,10 @@ const copy = {
     visit: {
       kicker: "Visit us",
       title: "We are waiting for you in Erbil.",
-      body: "Come and see the collection for yourself. Our shop is close to the Erbil Citadel bazaar, with the exact pin ready in Google Maps.",
+      body: "Visit us in Khanaqa, Erbil, and see the collection for yourself. The exact location is ready in Google Maps.",
       directions: "Open in Maps",
       call: "Call us",
-      address: "Erbil, Iraq",
+      address: "Khanaqa, Erbil, Iraq",
       hours: "For availability and prices, contact us directly.",
       imageAlt: "The Alam Al Mafrooshat storefront in Erbil",
     },
@@ -167,6 +168,31 @@ const copy = {
 } as const;
 
 const languages: Language[] = ["ar", "ku", "en"];
+
+function isLanguage(value: string | null): value is Language {
+  return languages.includes(value as Language);
+}
+
+const LANGUAGE_CHANGE_EVENT = "alam-language-change";
+
+function getLanguageFromUrl(): Language {
+  const requestedLanguage = new URLSearchParams(window.location.search).get("lang");
+  return isLanguage(requestedLanguage) ? requestedLanguage : "ar";
+}
+
+function subscribeToLanguage(callback: () => void) {
+  window.addEventListener("popstate", callback);
+  window.addEventListener(LANGUAGE_CHANGE_EVENT, callback);
+
+  return () => {
+    window.removeEventListener("popstate", callback);
+    window.removeEventListener(LANGUAGE_CHANGE_EVENT, callback);
+  };
+}
+
+function getServerLanguage(): Language {
+  return "ar";
+}
 
 const collectionImages = [
   "/media/bed-warm.jpg",
@@ -182,7 +208,11 @@ const films = [
 ] as const;
 
 export default function Home() {
-  const [language, setLanguage] = useState<Language>("ar");
+  const language = useSyncExternalStore(
+    subscribeToLanguage,
+    getLanguageFromUrl,
+    getServerLanguage,
+  );
   const [isScrolled, setIsScrolled] = useState(false);
   const text = copy[language];
 
@@ -229,6 +259,13 @@ export default function Home() {
     }
 
     play();
+  };
+
+  const changeLanguage = (nextLanguage: Language) => {
+    const url = new URL(window.location.href);
+    url.searchParams.set("lang", nextLanguage);
+    window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
+    window.dispatchEvent(new Event(LANGUAGE_CHANGE_EVENT));
   };
 
   useEffect(() => {
@@ -285,10 +322,17 @@ export default function Home() {
               className={language === item ? "is-active" : ""}
               key={item}
               type="button"
+              aria-label={`Switch language to ${copy[item].language}`}
               aria-pressed={language === item}
-              onClick={() => setLanguage(item)}
+              onClick={() => changeLanguage(item)}
             >
-              {item === "ku" ? "کـ" : item.toUpperCase()}
+              <span
+                className={`language-flag language-flag--${item}`}
+                aria-hidden="true"
+              />
+              <span className="language-name" lang={item} dir={copy[item].direction}>
+                {copy[item].language}
+              </span>
             </button>
           ))}
         </div>
@@ -305,7 +349,8 @@ export default function Home() {
                 {text.hero.primary}<span aria-hidden="true">↗</span>
               </a>
               <a className="button button-light" href={MAP_URL} target="_blank" rel="noreferrer">
-                {text.hero.secondary}<span aria-hidden="true">↗</span>
+                <span className="button-label"><FaLocationDot aria-hidden="true" size={16} />{text.hero.secondary}</span>
+                <span aria-hidden="true">↗</span>
               </a>
             </div>
           </div>
@@ -358,6 +403,7 @@ export default function Home() {
             <p>{text.story.body}</p>
             <p className="story-line">{text.story.line}</p>
             <a className="text-link" href={INSTAGRAM_URL} target="_blank" rel="noreferrer">
+              <FaInstagram aria-hidden="true" size={17} />
               {text.story.cta}<span aria-hidden="true">↗</span>
             </a>
           </div>
@@ -404,10 +450,12 @@ export default function Home() {
               <p>{text.visit.body}</p>
               <div className="visit-actions">
                 <a className="button button-gold" href={MAP_URL} target="_blank" rel="noreferrer">
-                  {text.visit.directions}<span aria-hidden="true">↗</span>
+                  <span className="button-label"><FaLocationDot aria-hidden="true" size={16} />{text.visit.directions}</span>
+                  <span aria-hidden="true">↗</span>
                 </a>
                 <a className="button button-outline" href="tel:+9647504640058">
-                  {text.visit.call}<span dir="ltr">0750 464 0058</span>
+                  <span className="button-label"><FaPhone aria-hidden="true" size={16} />{text.visit.call}</span>
+                  <span dir="ltr">0750 464 0058</span>
                 </a>
               </div>
               <div className="visit-meta">
@@ -427,9 +475,9 @@ export default function Home() {
         </div>
         <p>{text.footer}</p>
         <div className="footer-links">
-          <a className="footer-phone" href="tel:+9647504640058">0750 464 0058</a>
-          <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer">Instagram ↗</a>
-          <a href={MAP_URL} target="_blank" rel="noreferrer">Google Maps ↗</a>
+          <a className="footer-phone" href="tel:+9647504640058"><FaPhone aria-hidden="true" size={15} />0750 464 0058</a>
+          <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer"><FaInstagram aria-hidden="true" size={15} />Instagram ↗</a>
+          <a href={MAP_URL} target="_blank" rel="noreferrer"><FaLocationDot aria-hidden="true" size={15} />Google Maps ↗</a>
         </div>
       </footer>
     </div>

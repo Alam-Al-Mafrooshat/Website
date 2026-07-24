@@ -52,6 +52,17 @@ test("keeps all three languages and production assets in source", async () => {
   assert.match(page, /ku:\s*\{/);
   assert.match(page, /en:\s*\{/);
   assert.match(page, /document\.documentElement\.dir/);
+  assert.match(page, /URLSearchParams\(window\.location\.search\)/);
+  assert.match(page, /url\.searchParams\.set\("lang", nextLanguage\)/);
+  assert.match(page, /window\.history\.replaceState/);
+  assert.match(page, /react-icons\/fa6/);
+  assert.match(page, /useSyncExternalStore/);
+  assert.match(page, /LANGUAGE_CHANGE_EVENT/);
+  assert.match(page, /language-flag--\$\{item\}/);
+  assert.match(page, /copy\[item\]\.language/);
+  assert.doesNotMatch(page, /🇮🇶|🇬🇧/);
+  assert.match(page, /Khanaqa, Erbil, Iraq/);
+  assert.match(page, /شركة عالم المفروشات للتجارة العامة \/ المحدودة الخاصة/);
   assert.match(page, /webkitEnterFullscreen/);
   assert.match(page, /film-fullscreen-trigger/);
   assert.match(page, /Watch full screen/);
