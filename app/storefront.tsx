@@ -1,12 +1,16 @@
 "use client";
 
-import { useEffect, useState, useSyncExternalStore } from "react";
+import { useEffect, useState } from "react";
 import { FaInstagram, FaLocationDot, FaPhone } from "react-icons/fa6";
-
-type Language = "ar" | "ku" | "en";
-
-const INSTAGRAM_URL = "https://www.instagram.com/aso_home_textile/";
-const MAP_URL = "https://maps.app.goo.gl/1vM1ctcVCXHQw4tF8?g_st=iw";
+import {
+  INSTAGRAM_URL,
+  LANGUAGES,
+  MAP_URL,
+  PHONE_NUMBER,
+  languageConfig,
+  languagePath,
+  type Language,
+} from "./site-config";
 
 const copy = {
   ar: {
@@ -40,6 +44,7 @@ const copy = {
       body: "عالم المفروشات مشروع عائلي محلي بدأ عام ١٩٩٥. نعرف أن اختيار المفروشات تجربة شخصية، لذلك نحب أن تشاهدوا الخامة واللون عن قرب وتجدوا القطعة التي تشبه بيتكم.",
       line: "شركة عالم المفروشات للتجارة العامة / المحدودة الخاصة",
       cta: "تابعنا على إنستغرام",
+      imageAlt: "داخل متجر عالم المفروشات في أربيل",
     },
     films: {
       kicker: "نظرة أقرب",
@@ -92,6 +97,7 @@ const copy = {
       body: "عالم المفروشات پرۆژەیەکی خێزانی و ناوخۆییە کە لە ساڵی ١٩٩٥ دەستی پێکردووە. دەزانین هەڵبژاردنی ڕاخەرانی ماڵ شتێکی کەسییە، بۆیە حەز دەکەین لە نزیکەوە خامە و ڕەنگەکان ببینن.",
       line: "کۆمپانیای عالم المفروشات بۆ بازرگانی گشتی / سنوورداری تایبەت",
       cta: "لە ئینستاگرام شوێنمان بکەوە",
+      imageAlt: "ناو فرۆشگای عالم المفروشات لە هەولێر",
     },
     films: {
       kicker: "لە نزیکەوە",
@@ -144,6 +150,7 @@ const copy = {
       body: "Alam Al Mafrooshat is a local family business established in 1995. We know home textiles are personal, so we invite you to see the fabric and colour up close and find the piece that feels right for your home.",
       line: "Alam Al Mafrooshat General Trading Company / Private Limited",
       cta: "Follow us on Instagram",
+      imageAlt: "Inside Alam Al Mafrooshat in Erbil",
     },
     films: {
       kicker: "A closer look",
@@ -167,38 +174,11 @@ const copy = {
   },
 } as const;
 
-const languages: Language[] = ["ar", "ku", "en"];
-
-function isLanguage(value: string | null): value is Language {
-  return languages.includes(value as Language);
-}
-
-const LANGUAGE_CHANGE_EVENT = "alam-language-change";
-
-function getLanguageFromUrl(): Language {
-  const requestedLanguage = new URLSearchParams(window.location.search).get("lang");
-  return isLanguage(requestedLanguage) ? requestedLanguage : "ar";
-}
-
-function subscribeToLanguage(callback: () => void) {
-  window.addEventListener("popstate", callback);
-  window.addEventListener(LANGUAGE_CHANGE_EVENT, callback);
-
-  return () => {
-    window.removeEventListener("popstate", callback);
-    window.removeEventListener(LANGUAGE_CHANGE_EVENT, callback);
-  };
-}
-
-function getServerLanguage(): Language {
-  return "ar";
-}
-
 const collectionImages = [
-  "/media/bed-warm.jpg",
-  "/media/bed-monochrome.jpg",
-  "/media/rug-grey.jpg",
-  "/media/collection-wall.jpg",
+  { src: "/media/bed-warm.jpg", width: 1600, height: 1200 },
+  { src: "/media/bed-monochrome.jpg", width: 1600, height: 1200 },
+  { src: "/media/rug-grey.jpg", width: 1600, height: 1200 },
+  { src: "/media/collection-wall.jpg", width: 1200, height: 1600 },
 ] as const;
 
 const films = [
@@ -207,19 +187,9 @@ const films = [
   { src: "/media/store-film-03.mp4", poster: "/media/collection-wall.jpg" },
 ] as const;
 
-export default function Home() {
-  const language = useSyncExternalStore(
-    subscribeToLanguage,
-    getLanguageFromUrl,
-    getServerLanguage,
-  );
+export default function Storefront({ language }: { language: Language }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const text = copy[language];
-
-  useEffect(() => {
-    document.documentElement.lang = language;
-    document.documentElement.dir = text.direction;
-  }, [language, text.direction]);
 
   useEffect(() => {
     const updateHeader = () => setIsScrolled(window.scrollY > 28);
@@ -261,13 +231,6 @@ export default function Home() {
     play();
   };
 
-  const changeLanguage = (nextLanguage: Language) => {
-    const url = new URL(window.location.href);
-    url.searchParams.set("lang", nextLanguage);
-    window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
-    window.dispatchEvent(new Event(LANGUAGE_CHANGE_EVENT));
-  };
-
   useEffect(() => {
     const root = document.documentElement;
     const elements = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
@@ -302,7 +265,7 @@ export default function Home() {
     <div className="site-shell" lang={language} dir={text.direction}>
       <header className={`site-header${isScrolled ? " is-scrolled" : ""}`}>
         <a className="brand" href="#top" aria-label="Alam Al Mafrooshat">
-          <img src="/brand/logo.png" alt="ASO Home Textile" />
+          <img src="/brand/logo.png" alt="ASO Home Textile" width={1254} height={1254} />
           <span className="brand-name">
             <strong>{language === "en" ? "Alam Al Mafrooshat" : "عالم المفروشات"}</strong>
             <small>ASO Home Textile</small>
@@ -317,14 +280,14 @@ export default function Home() {
         </nav>
 
         <div className="language-switcher" aria-label="Language">
-          {languages.map((item) => (
-            <button
+          {LANGUAGES.map((item) => (
+            <a
               className={language === item ? "is-active" : ""}
+              href={languagePath(item)}
+              hrefLang={languageConfig[item].hreflang}
               key={item}
-              type="button"
               aria-label={`Switch language to ${copy[item].language}`}
-              aria-pressed={language === item}
-              onClick={() => changeLanguage(item)}
+              aria-current={language === item ? "page" : undefined}
             >
               <span
                 className={`language-flag language-flag--${item}`}
@@ -333,7 +296,7 @@ export default function Home() {
               <span className="language-name" lang={item} dir={copy[item].direction}>
                 {copy[item].language}
               </span>
-            </button>
+            </a>
           ))}
         </div>
       </header>
@@ -357,7 +320,14 @@ export default function Home() {
 
           <div className="hero-visual">
             <div className="hero-frame">
-              <img src="/media/hero-bed.jpg" alt={text.hero.imageAlt} />
+              <img
+                src="/media/hero-bed.jpg"
+                alt={text.hero.imageAlt}
+                width={1125}
+                height={961}
+                fetchPriority="high"
+                decoding="async"
+              />
               <span className="image-index">01</span>
             </div>
             <p>{text.hero.note}</p>
@@ -381,8 +351,15 @@ export default function Home() {
 
           <div className="collection-grid">
             {text.collection.cards.map((card, index) => (
-              <article className={`collection-card card-${index + 1}`} key={collectionImages[index]} data-reveal>
-                <img src={collectionImages[index]} alt={card.alt} loading="lazy" decoding="async" />
+              <article className={`collection-card card-${index + 1}`} key={collectionImages[index].src} data-reveal>
+                <img
+                  src={collectionImages[index].src}
+                  alt={card.alt}
+                  width={collectionImages[index].width}
+                  height={collectionImages[index].height}
+                  loading="lazy"
+                  decoding="async"
+                />
                 <div className="card-overlay">
                   <span>0{index + 1}</span>
                   <div><h3>{card.title}</h3><p>{card.caption}</p></div>
@@ -394,7 +371,14 @@ export default function Home() {
 
         <section className="story section-pad" id="story">
           <div className="story-image-wrap" data-reveal>
-            <img src="/media/store-interior.jpg" alt="Alam Al Mafrooshat store interior" loading="lazy" decoding="async" />
+            <img
+              src="/media/store-interior.jpg"
+              alt={text.story.imageAlt}
+              width={1200}
+              height={1600}
+              loading="lazy"
+              decoding="async"
+            />
             <span className="since-mark">1995<small>ERBIL</small></span>
           </div>
           <div className="story-copy" data-reveal>
@@ -453,7 +437,7 @@ export default function Home() {
                   <span className="button-label"><FaLocationDot aria-hidden="true" size={16} />{text.visit.directions}</span>
                   <span aria-hidden="true">↗</span>
                 </a>
-                <a className="button button-outline" href="tel:+9647504640058">
+                <a className="button button-outline" href={`tel:${PHONE_NUMBER}`}>
                   <span className="button-label"><FaPhone aria-hidden="true" size={16} />{text.visit.call}</span>
                   <span dir="ltr">0750 464 0058</span>
                 </a>
@@ -463,19 +447,26 @@ export default function Home() {
                 <p>{text.visit.hours}</p>
               </div>
             </div>
-            <img src="/media/store-front.jpg" alt={text.visit.imageAlt} loading="lazy" decoding="async" />
+            <img
+              src="/media/store-front.jpg"
+              alt={text.visit.imageAlt}
+              width={1200}
+              height={1600}
+              loading="lazy"
+              decoding="async"
+            />
           </div>
         </section>
       </main>
 
       <footer className="site-footer section-pad">
         <div className="footer-brand">
-          <img src="/brand/logo.png" alt="" aria-hidden="true" />
+          <img src="/brand/logo.png" alt="" aria-hidden="true" width={1254} height={1254} />
           <div><strong>عالم المفروشات</strong><span>Alam Al Mafrooshat</span></div>
         </div>
         <p>{text.footer}</p>
         <div className="footer-links">
-          <a className="footer-phone" href="tel:+9647504640058"><FaPhone aria-hidden="true" size={15} />0750 464 0058</a>
+          <a className="footer-phone" href={`tel:${PHONE_NUMBER}`}><FaPhone aria-hidden="true" size={15} />0750 464 0058</a>
           <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer"><FaInstagram aria-hidden="true" size={15} />Instagram ↗</a>
           <a href={MAP_URL} target="_blank" rel="noreferrer"><FaLocationDot aria-hidden="true" size={15} />Google Maps ↗</a>
         </div>

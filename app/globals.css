@@ -191,7 +191,7 @@ button {
   direction: ltr;
 }
 
-.language-switcher button {
+.language-switcher a {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -209,7 +209,7 @@ button {
   transition: background-color 180ms ease, color 180ms ease;
 }
 
-.language-switcher button.is-active {
+.language-switcher a.is-active {
   background: var(--ink);
   color: var(--white);
 }
@@ -924,7 +924,7 @@ html:not([lang="en"]) h2 {
     min-height: 82px;
   }
 
-  .language-switcher button {
+  .language-switcher a {
     gap: 0.28rem;
     height: 42px;
     padding-inline: 0.42rem;
