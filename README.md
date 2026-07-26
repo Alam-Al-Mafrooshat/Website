@@ -26,6 +26,30 @@ npm run lint
 
 `npm test` creates the production build before running rendered-page, language, and required-asset checks. Cloudflare uses it as the build command so deployments retain a quality gate without GitHub Actions.
 
+## Change approval and deployment
+
+Third-party changes follow the reviewed pull-request workflow in [AGENTS.md](AGENTS.md#third-party-developer-handoff). After an authorized merge to `main`, Cloudflare Workers Builds deploys the updated site.
+
+![Owner approval and Cloudflare deployment workflow](docs/assets/owner-pr-approval-deployment-workflow.png)
+
+```mermaid
+flowchart TD
+    A["Third-party developer<br/>forks, changes, and tests"] --> B["Opens PR targeting main<br/>plain-language summary and evidence"]
+    B --> C{"Owner chooses<br/>an authorized review path"}
+    C -->|Owner review| D["Owner reviews in GitHub Mobile<br/>trusted developer guides in person"]
+    D --> E{"Owner decision"}
+    E -->|Changes requested| A
+    E -->|Approved| H["Authorized merge into main"]
+    C -->|Support review| F["Owner explicitly asks designated trusted support<br/>to review the named PR"]
+    F --> G{"Support team decision"}
+    G -->|Changes requested| A
+    G -->|Approved| H
+    H --> I["Cloudflare Workers Builds runs npm test<br/>then npx wrangler deploy"]
+    I --> J{"Deployment succeeds?"}
+    J -->|Yes| K["Live site updated"]
+    J -->|No| L["Technical support investigates"]
+```
+
 ## Content map
 
 - `app/page.tsx` — page structure, all three translations, map/Instagram/phone destinations.
