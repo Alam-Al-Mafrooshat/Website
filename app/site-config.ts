@@ -2,6 +2,7 @@ export const SITE_URL = "https://alam-al-mafrooshat.com";
 export const INSTAGRAM_URL = "https://www.instagram.com/aso_home_textile/";
 export const MAP_URL = "https://maps.app.goo.gl/1vM1ctcVCXHQw4tF8?g_st=iw";
 export const PHONE_NUMBER = "+9647504640058";
+export const PHONE_DISPLAY = "07504640058";
 
 export const LANGUAGES = ["ar", "ku", "en"] as const;
 
@@ -95,4 +96,3 @@ export const languageAlternates = Object.fromEntries(
 ) as Record<string, string>;
 
 languageAlternates["x-default"] = "/ar";
-

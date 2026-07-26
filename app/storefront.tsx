@@ -6,6 +6,7 @@ import {
   INSTAGRAM_URL,
   LANGUAGES,
   MAP_URL,
+  PHONE_DISPLAY,
   PHONE_NUMBER,
   languageConfig,
   languagePath,
@@ -439,7 +440,7 @@ export default function Storefront({ language }: { language: Language }) {
                 </a>
                 <a className="button button-outline" href={`tel:${PHONE_NUMBER}`}>
                   <span className="button-label"><FaPhone aria-hidden="true" size={16} />{text.visit.call}</span>
-                  <span dir="ltr">0750 464 0058</span>
+                  <span dir="ltr">{PHONE_DISPLAY}</span>
                 </a>
               </div>
               <div className="visit-meta">
@@ -466,7 +467,7 @@ export default function Storefront({ language }: { language: Language }) {
         </div>
         <p>{text.footer}</p>
         <div className="footer-links">
-          <a className="footer-phone" href={`tel:${PHONE_NUMBER}`}><FaPhone aria-hidden="true" size={15} />0750 464 0058</a>
+          <a className="footer-phone" href={`tel:${PHONE_NUMBER}`}><FaPhone aria-hidden="true" size={15} />{PHONE_DISPLAY}</a>
           <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer"><FaInstagram aria-hidden="true" size={15} />Instagram ↗</a>
           <a href={MAP_URL} target="_blank" rel="noreferrer"><FaLocationDot aria-hidden="true" size={15} />Google Maps ↗</a>
         </div>

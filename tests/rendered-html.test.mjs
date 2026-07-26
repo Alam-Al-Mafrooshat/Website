@@ -94,6 +94,8 @@ test("server-renders indexable, localized SEO for all three languages", async ()
     assert.match(html, /"@type":"GeoCoordinates"/);
     assert.match(html, /"latitude":36\.191246/);
     assert.match(html, /"telephone":"\+9647504640058"/);
+    assert.ok(html.includes("07504640058"), `${item.route} visible phone number`);
+    assert.ok(!html.includes("0750 464 0058"), `${item.route} avoids RTL-sensitive phone spacing`);
     assert.match(html, /href="\/ar"/);
     assert.match(html, /href="\/ku"/);
     assert.match(html, /href="\/en"/);
