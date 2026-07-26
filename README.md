@@ -30,6 +30,8 @@ npm run lint
 
 Third-party changes follow the reviewed pull-request workflow in [AGENTS.md](AGENTS.md#third-party-developer-handoff). After an authorized merge to `main`, Cloudflare Workers Builds deploys the updated site.
 
+> **Practice PR:** This documentation-only note practices the owner review and merge workflow; it changes no website functionality or deployment settings.
+
 ![Owner approval and Cloudflare deployment workflow](docs/assets/owner-pr-approval-deployment-workflow.png)
 
 ```mermaid
