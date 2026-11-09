@@ -6,7 +6,7 @@ Production: [alam-al-mafrooshat.com](https://alam-al-mafrooshat.com)
 
 The site is a multilingual Arabic, Kurdish, and English one-page storefront built with React and Vinext. It has no CMS, database, accounts, or runtime content service. Copy, media, contact details, and links are managed directly in this repository.
 
-This is a small independent favor project, not a ShiftSoftware company project. Its durable technical and operational context intentionally lives here rather than in `.shift`.
+This is a small independent favor project, not a ShiftSoftware company project. Its durable technical and operational context intentionally lives here.
 
 ## Run locally
 
